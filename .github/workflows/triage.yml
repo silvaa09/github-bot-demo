@@ -1,0 +1,17 @@
+name: Issue Triage Bot
+on:
+  issues:
+    types: [opened]
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            if (context.payload.issue.title.includes('error')) {
+              github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                labels: ['bug']
+              });
+            }
